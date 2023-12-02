@@ -20,5 +20,9 @@ tags: 笔记
 
 ​		查看链接：[AYER]((https://github.com/Shen-Yu/hexo-theme-ayer))
 
+​	**本网站所有的笔记（MarkDowm格式）都同步更新到了github**
+
+​		查看链接：[regenm/Notes](https://github.com/regenm/Notes)
+
 ​	感谢开源大佬们的贡献，让我这样的小白也可以有自己的博客，同时也希望自己在不久的将来也能在开源社区做出一点贡献。
 

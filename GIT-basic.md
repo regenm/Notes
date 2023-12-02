@@ -230,3 +230,15 @@ git branch -d newBranch
 
 * merge conflict
 
+**其他操作**
+
+* GIT Associating a local repository to a remote repository
+
+```bash
+git remote add origin git@github.com:beiszhihao/test.git
+```
+
+```bash
+git push -u origin master
+```
+
