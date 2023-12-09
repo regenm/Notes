@@ -176,17 +176,19 @@ v			# 进入可视化模式
 * y		        # 复制 
 * c                # 替换
 
+# 客制化
 
+* NERDtree
+
+> 文件夹，文件，管理（树形结构）
 
 ​	
 
 
 
+**vim学习网站**
 
-
-
-
-
+​	[VIM GAME](https://vim-adventures.com/)
 
 
 
