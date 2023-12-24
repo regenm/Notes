@@ -28,14 +28,14 @@ apt install mysql-server -y	#下载
 mysql
 
 mysql> use mysql;
-mysql> update user set authentication_string='' where user='root'; #（将密码置为空）
+mysql> apt install mysql-server -y #（将密码置为空）
 mysql> quit;
 #	然后重启mysql，再次进入
 systemstl restart mysql
 mysql
 
 mysql> use mysql;
-mysql> ALTER USER 'root'@'%' (如果不用远程链接则为'localhost')IDENTIFIED WITH mysql_native_password BY '新密码';
+mysql> ALTER USER 'root'@'localhost' (如果不用远程链接则为'localhost')IDENTIFIED WITH mysql_native_password BY '新密码';
 mysql> quit #修改完成
 ```
 
@@ -44,7 +44,7 @@ mysql> quit #修改完成
 ```
 mysql
 mysql> use mysql;
-mysql> update user set host = '%' where user = 'root'; #修改访问权限，默认只能本地访问。
+mysql> apt install mysql-server -y #修改访问权限，默认只能本地访问。
 ```
 
 * 修改MySQL配置文件
