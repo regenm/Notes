@@ -4,11 +4,9 @@ date: 2023-11-12 21:58:40
 tags: 笔记
 ---
 
-# Read me:
-
-​	本部分笔记为散记，用于记录我认为的疑难杂点。
-
 # Start
+
+## 树
 
 * **哈夫曼树（最优二叉树）**
 
@@ -173,157 +171,6 @@ int main()
 
 
 
-
-
-
-
-
-
-
-
-* **并查集**
-
-​	 	主要用于解决一些**元素分组**的问题。也可以用来判断图的连通性，它管理一系列**不相交的集合**，并支持两种操作：
-
-- **合并**（Union）：把两个不相交的集合合并为一个集合。
-- **查询**（Find）：查询两个元素是否在同一个集合中。
-
-```c
-int find(int x)	//最简单版本
-{
-    /*
-    *当数据很多时，查找会很耗费时间
-    *
-    */
-    if(father[x]!=x) father[x]=find(father[x]);
-    return father[x];
-}
-
-int find(int x){           //查找根节点的函数 
-    /*
-    *	升级版
-    *	带路径压缩功能
-    */
-    int a;
-	a=x;
-	while(x!=father[x])x=father[x];
-	
-	while(a!=father[a]){    //路径压缩 
-		int z=a;
-		a=father[a];
-		father[z]=x;
-	}
-	return x;
-}
-void Union(int a,int b){ 
-    						//合并两个集合
-    int fx=find(a);
-    int fy=find(b);
-    father[fx]=fy;
-}
-
-int judgeConnect(){
-    						//判断连通性
-    int i,k=0;
-    for(i=1;i<=vertex;i++)
-        if(father[i]==i) k++;
-        if(k==1) return 1;
-    else return 0;
-    
-}
-```
-
-* **AOE图**
-
-> *concept:*
->
-> 1、**最早发生**时间：从前往后，前驱结点到当前结点所需时间，取**最大值**；
->
-> 2、**最迟发生**时间：从后往前，后继结点的最迟时间减去边权的值，取**最小值**；
->
-> **结束节点的最早发生时间和最迟发生时间相同。**
->
-> 3、关键路径：最早发生时间和最迟发生时间相同的结点叫做关键路径上的结点；
->
-> 4、**最早开始**时间：等于当前边起始节点的最早发生时间；
->
-> 5、**最晚开始**时间：等于当前便指向结点的最迟时间减去当前边的权值；
->
-> 6、**最早完工**时间：等于当前边指向结点的最早发生时间；
->
-> 7、**最晚完工**时间：等于当前边指向结点的最迟发生时间；
-
-* **图的链式存储结构**
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#define MVNum 100                                 //最大顶点数 
-typedef struct ArcNode{                        //表结点 
-    int adjvex;                                    //邻接点的位置 
-    struct ArcNode * nextarc;      //指向下一个表结点的指针 
-  }ArcNode; 
-  
-typedef struct VNode{ 
-   char data;                                    //顶点信息 
-   ArcNode * firstarc;         //指向第一个表结点的指针 
-}VNode, AdjList[MVNum];                 //AdjList表示邻接表类型 
-
-typedef struct{ 
-    AdjList vertices;              //头结点数组
-    int vexnum, arcnum;     //图的当前顶点数和边数 
-}ALGraph; 
-
-void CreatMGraph(ALGraph *G);/* 创建图 */
-void printGraph(ALGraph G);/*输出图 */
-int main()
-{
-    ALGraph G;
-    CreatMGraph(&G);
-    printGraph(G);
-    return 0;
-}
-void CreatMGraph(ALGraph *G)
-{
-    int i,j,k;
-    ArcNode *s;
-    scanf("%d%d",&G->vexnum,&G->arcnum);
-    getchar();
-    for(i=0;i<G->vexnum;i++)
-         scanf("%c",&G->vertices[i].data);
-
-    for(i=0;i<G->vexnum;i++)
-         G->vertices[i].firstarc=NULL;
-
-    for(k=0;k<G->arcnum;k++) {  
-        scanf("%d%d",&i,&j);    
-        s=(ArcNode*)malloc(sizeof(ArcNode));
-        s->adjvex=j;
-        s->nextarc=G->vertices[i].firstarc;
-
-        G->vertices[i].firstarc=s;   
-
-        s=(ArcNode*)malloc(sizeof(ArcNode));
-        s->adjvex=i;
-
-        s->nextarc=G->vertices[j].firstarc;;
-        G->vertices[j].firstarc=s;  
-    }
-}
-void printGraph(ALGraph G)
-{
-    int i,j;
-    ArcNode *p;
-    for(i=0;i<G.vexnum;i++)
-    {
-       printf("%c:",G.vertices[i].data);
-       for(p=G.vertices[i].firstarc;p;p=p->nextarc)
-           printf(" %c",G.vertices[p->adjvex].data);
-       printf("\n");
-    }
-}
-```
-
 * **二叉树：先序遍历**
 
 ```c
@@ -338,7 +185,7 @@ int PreOrder(BiTree T){
         return 0;				//遍历失败，根节点空
     }
     return 1;
-}
+}     
 ```
 
 **二叉树：顺序存储**
@@ -488,6 +335,155 @@ void inOrderTraverse(Node* root)
 	}
 }
 ```
+
+
+
+## 图
+
+* **并查集**
+
+​	 	主要用于解决一些**元素分组**的问题。也可以用来判断图的连通性，它管理一系列**不相交的集合**，并支持两种操作：
+
+- **合并**（Union）：把两个不相交的集合合并为一个集合。
+- **查询**（Find）：查询两个元素是否在同一个集合中。
+
+```c
+int find(int x)	//最简单版本
+{
+    /*
+    *当数据很多时，查找会很耗费时间
+    *
+    */
+    if(father[x]!=x) father[x]=find(father[x]);
+    return father[x];
+}
+
+int find(int x){           //查找根节点的函数 
+    /*
+    *	升级版
+    *	带路径压缩功能
+    */
+    int a;
+	a=x;
+	while(x!=father[x])x=father[x];
+	
+	while(a!=father[a]){    //路径压缩 
+		int z=a;
+		a=father[a];
+		father[z]=x;
+	}
+	return x;
+}
+void Union(int a,int b){ 
+    						//合并两个集合
+    int fx=find(a);
+    int fy=find(b);
+    father[fx]=fy;
+}
+
+int judgeConnect(){
+    						//判断连通性
+    int i,k=0;
+    for(i=1;i<=vertex;i++)
+        if(father[i]==i) k++;
+        if(k==1) return 1;
+    else return 0;
+    
+}
+```
+
+* **AOE图**
+
+> *concept:*
+>
+> 1、**最早发生**时间：从前往后，前驱结点到当前结点所需时间，取**最大值**；
+>
+> 2、**最迟发生**时间：从后往前，后继结点的最迟时间减去边权的值，取**最小值**；
+>
+> **结束节点的最早发生时间和最迟发生时间相同。**
+>
+> 3、关键路径：最早发生时间和最迟发生时间相同的结点叫做关键路径上的结点；
+>
+> 4、**最早开始**时间：等于当前边起始节点的最早发生时间；
+>
+> 5、**最晚开始**时间：等于当前便指向结点的最迟时间减去当前边的权值；
+>
+> 6、**最早完工**时间：等于当前边指向结点的最早发生时间；
+>
+> 7、**最晚完工**时间：等于当前边指向结点的最迟发生时间；
+
+* **图的链式存储结构**
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#define MVNum 100                                 //最大顶点数 
+typedef struct ArcNode{                        //表结点 
+    int adjvex;                                    //邻接点的位置 
+    struct ArcNode * nextarc;      //指向下一个表结点的指针 
+  }ArcNode; 
+  
+typedef struct VNode{ 
+   char data;                                    //顶点信息 
+   ArcNode * firstarc;         //指向第一个表结点的指针 
+}VNode, AdjList[MVNum];                 //AdjList表示邻接表类型 
+
+typedef struct{ 
+    AdjList vertices;              //头结点数组
+    int vexnum, arcnum;     //图的当前顶点数和边数 
+}ALGraph; 
+
+void CreatMGraph(ALGraph *G);/* 创建图 */
+void printGraph(ALGraph G);/*输出图 */
+int main()
+{
+    ALGraph G;
+    CreatMGraph(&G);
+    printGraph(G);
+    return 0;
+}
+void CreatMGraph(ALGraph *G)
+{
+    int i,j,k;
+    ArcNode *s;
+    scanf("%d%d",&G->vexnum,&G->arcnum);
+    getchar();
+    for(i=0;i<G->vexnum;i++)
+         scanf("%c",&G->vertices[i].data);
+
+    for(i=0;i<G->vexnum;i++)
+         G->vertices[i].firstarc=NULL;
+
+    for(k=0;k<G->arcnum;k++) {  
+        scanf("%d%d",&i,&j);    
+        s=(ArcNode*)malloc(sizeof(ArcNode));
+        s->adjvex=j;
+        s->nextarc=G->vertices[i].firstarc;
+
+        G->vertices[i].firstarc=s;   
+
+        s=(ArcNode*)malloc(sizeof(ArcNode));
+        s->adjvex=i;
+
+        s->nextarc=G->vertices[j].firstarc;;
+        G->vertices[j].firstarc=s;  
+    }
+}
+void printGraph(ALGraph G)
+{
+    int i,j;
+    ArcNode *p;
+    for(i=0;i<G.vexnum;i++)
+    {
+       printf("%c:",G.vertices[i].data);
+       for(p=G.vertices[i].firstarc;p;p=p->nextarc)
+           printf(" %c",G.vertices[p->adjvex].data);
+       printf("\n");
+    }
+}
+```
+
+## 查找（搜索）
 
 * **折半搜索**
 
@@ -785,6 +781,330 @@ $$
 
 
 
+## 排序
+
+* **插入排序**
+
+```c
+void InsertSort(int* arr, int n)
+{
+	for (int i = 0; i < n - 1; ++i)
+	{
+		//记录有序序列最后一个元素的下标
+		int end = i;
+		//待插入的元素
+		int tem = arr[end + 1];
+		//单趟排
+		while (end >= 0)
+		{
+			//比插入的数大就向后移
+			if (tem < arr[end])
+			{
+				arr[end + 1] = arr[end];
+				end--;
+			}
+			//比插入的数小，跳出循环
+			else
+			{
+				break;
+			}
+		}
+		//tem放到比插入的数小的数的后面
+		arr[end  + 1] = tem;
+		//代码执行到此位置有两种情况:
+		//1.待插入元素找到应插入位置（break跳出循环到此）
+		//2.待插入元素比当前有序序列中的所有元素都小（while循环结束后到此）
+	}
+}
+
+```
+
+> 时间复杂度：	
+>
+> * 最坏（逆序）：O(n^2)
+> * 最好（升序）：O(n)
+>
+> 空间复杂度：O(1)
+
+* **希尔排序**
+
+```c
+//希尔排序
+void ShellSort(int* arr, int n)
+{
+	int gap = n;
+	while (gap>1)
+	{
+		//每次对gap折半操作
+		gap = gap / 2;
+		//单趟排序
+		for (int i = 0; i < n - gap; ++i)
+		{
+			int end = i;
+			int tem = arr[end + gap];
+			while (end >= 0)
+			{
+				if (tem < arr[end])
+				{
+					arr[end + gap] = arr[end];
+					end -= gap;
+				}
+				else
+				{
+					break;
+				}
+			}
+			arr[end + gap] = tem;
+		}
+	}
+}
+
+```
+
+> 时间复杂度(平均)：O(N^1.3)
+> 空间复杂度：O(1)
+
+* **选择排序**
+
+```c
+//选择排序
+void swap(int* a, int* b)
+{
+	int tem = *a;
+	*a = *b;
+	*b = tem;
+}
+void SelectSort(int* arr, int n)
+{
+	//保存参与单趟排序的第一个数和最后一个数的下标
+	int begin = 0, end = n - 1;
+	while (begin < end)
+	{
+		//保存最大值的下标
+		int maxi = begin;
+		//保存最小值的下标
+		int mini = begin;
+		//找出最大值和最小值的下标
+		for (int i = begin; i <= end; ++i)
+		{
+			if (arr[i] < arr[mini])
+			{
+				mini = i;
+			}
+			if (arr[i] > arr[maxi])
+			{
+				maxi = i;
+			}
+		}
+		//最小值放在序列开头
+		swap(&arr[mini], &arr[begin]);
+		//防止最大的数在begin位置被换走
+		if (begin == maxi)
+		{
+			maxi = mini;
+		}
+		//最大值放在序列结尾
+		swap(&arr[maxi], &arr[end]);
+		++begin;
+		--end;
+	}
+}
+c
+```
+
+> 时间复杂度：
+>
+> * 最坏情况：O(N^2)
+> * 最好情况：O(N^2)
+>
+> 空间复杂度：O(1)
+
+* **冒泡排序**
+
+```c
+//冒泡排序
+void BubbleSort(int* arr, int n)
+{
+	int end = n;
+	while (end)
+	{
+		int flag = 0;
+		for (int i = 1; i < end; ++i)
+		{
+			if (arr[i - 1] > arr[i])
+			{
+				int tem = arr[i];
+				arr[i] = arr[i - 1];
+				arr[i - 1] = tem;
+				flag = 1;
+			}
+		}
+		if (flag == 0)
+		{
+			break;
+		}
+		--end;
+	}
+}
+
+```
+
+> 时间复杂度：
+>
+> * 最坏情况：O(N^2)
+> * 最好情况：O(N)
+>
+> 空间复杂度：O(1)
+
+* **堆排序**
+
+> 堆的分类：
+>
+> * 大根堆：每个节点的值大于或等于左右孩子节点的值
+> * 小根堆：每个节点的值小于或等于左右孩子节点的值
+
+步骤：
+
+1. 构造大根堆
+2. 顶端与末尾值交换
+3. 将剩下的n-1个数造次构造为大根堆，重复上述操作。
+
+
+
+```c
+//目标为升序
+void HeapAdjust(int* arr, int start, int end)
+{
+	int tmp = arr[start];
+	for (int i = 2 * start + 1; i <= end; i = i * 2 + 1)
+	{
+		if (i < end&& arr[i] < arr[i + 1])//有右孩子并且左孩子小于右孩子
+		{
+			i++;
+		}//i一定是左右孩子的最大值
+		if (arr[i] > tmp)
+		{
+			arr[start] = arr[i];
+			start = i;
+		}
+		else
+		{
+			break;
+		}
+	}
+	arr[start] = tmp;
+}
+void HeapSort(int* arr, int len)
+{
+	//第一次建立大根堆，从后往前依次调整
+	for(int i=(len-1-1)/2;i>=0;i--)
+	{
+		HeapAdjust(arr, i, len - 1);
+	}
+	//每次将根和待排序的最后一次交换，然后在调整
+	int tmp;
+	for (int i = 0; i < len - 1; i++)
+	{
+		tmp = arr[0];
+		arr[0] = arr[len - 1-i];
+		arr[len - 1 - i] = tmp;
+		HeapAdjust(arr, 0, len - 1-i- 1);
+	}
+}
+int main()
+{
+	int arr[] = { 9,5,6,3,5,3,1,0,96,66 };
+	HeapSort(arr, sizeof(arr) / sizeof(arr[0]));
+	printf("排序后为:");
+	for (int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++)
+	{
+		printf("%d ", arr[i]);
+	}
+	return 0;
+}
+```
+
+
+
+> 时间复杂度：时间复杂度为O(nlogn)
+>
+> 空间复杂度：O(1)
+
+
+
+* **快速排序（挖坑法）**
+
+```c
+int PartSort(int* arr, int left, int right)
+{
+    int key = arr[left];
+    int hole = left;
+    
+    while (left < right)
+    {
+        while (left < right && arr[right] >= key)
+        {
+            right--;
+        }
+        arr[hole] = arr[right];
+        hole = right;
+        
+        while (left < right && arr[left] <= key)
+        {
+            left++;
+        }
+        arr[hole] = arr[left];
+        hole = left;
+    }
+    
+    arr[hole] = key;
+    return hole;
+}
+
+```
+
+
+
+* **归并排序**
+
+```c
+void Merge(int sourceArr[],int tempArr[], int startIndex, int midIndex, int endIndex){
+    int i = startIndex, j=midIndex+1, k = startIndex;
+    while(i!=midIndex+1 && j!=endIndex+1) {
+        if(sourceArr[i] > sourceArr[j])
+            tempArr[k++] = sourceArr[j++];
+        else
+            tempArr[k++] = sourceArr[i++];
+    }
+    while(i != midIndex+1)
+        tempArr[k++] = sourceArr[i++];
+    while(j != endIndex+1)
+        tempArr[k++] = sourceArr[j++];
+    for(i=startIndex; i<=endIndex; i++)
+        sourceArr[i] = tempArr[i];
+}
+ 
+//内部使用递归
+void MergeSort(int sourceArr[], int tempArr[], int startIndex, int endIndex) {
+    int midIndex;
+    if(startIndex < endIndex) {
+        midIndex = startIndex + (endIndex-startIndex) / 2;//避免溢出int
+        MergeSort(sourceArr, tempArr, startIndex, midIndex);
+        MergeSort(sourceArr, tempArr, midIndex+1, endIndex);
+        Merge(sourceArr, tempArr, startIndex, midIndex, endIndex);
+    }
+}
+ 
+int main(int argc, char * argv[]) {
+    int a[8] = {50, 10, 20, 30, 70, 40, 80, 60};
+    int i, b[8];
+    MergeSort(a, b, 0, 7);
+    for(i=0; i<8; i++)
+        printf("%d ", a[i]);
+    printf("\n");
+    return 0;
+}
+```
 
 
 
@@ -792,12 +1112,159 @@ $$
 
 
 
+>  时间复杂度：O(nlogn)。
+>
+>  空间复杂度：O(N)，归并排序需要一个与原数组相同长度的数组做辅助来排序。
 
+* **基数排序**
 
+```c
+#include<math.h>
+void testBS()
+{
+    inta[] = {2, 343, 342, 1, 123, 43, 4343, 433, 687, 654, 3};
+    int *a_p = a;
+    //计算数组长度
+    intsize = sizeof(a) / sizeof(int);
+    //基数排序
+    bucketSort3(a_p, size);
+    //打印排序后结果
+    inti;
+    for(i = 0; i < size; i++)
+    {
+        printf("%d\n", a[i]);
+    }
+    intt;
+    scanf("%d", t);
+}
+//基数排序
+void bucketSort3(int *p, intn)
+{
+    //获取数组中的最大数
+    intmaxNum = findMaxNum(p, n);
+    //获取最大数的位数，次数也是再分配的次数。
+    intloopTimes = getLoopTimes(maxNum);
+    inti;
+    //对每一位进行桶分配
+    for(i = 1; i <= loopTimes; i++)
+    {
+        sort2(p, n, i);
+    }
+}
+//获取数字的位数
+int getLoopTimes(intnum)
+{
+    intcount = 1;
+    inttemp = num / 10;
+    while(temp != 0)
+    {
+        count++;
+        temp = temp / 10;
+    }
+    returncount;
+}
+//查询数组中的最大数
+int findMaxNum(int *p, intn)
+{
+    inti;
+    intmax = 0;
+    for(i = 0; i < n; i++)
+    {
+        if(*(p + i) > max)
+        {
+            max = *(p + i);
+        }
+    }
+    returnmax;
+}
+//将数字分配到各自的桶中，然后按照桶的顺序输出排序结果
+void sort2(int *p, intn, intloop)
+{
+    //建立一组桶此处的20是预设的根据实际数情况修改
+    intbuckets[10][20] = {};
+    //求桶的index的除数
+    //如798个位桶index=(798/1)%10=8
+    //十位桶index=(798/10)%10=9
+    //百位桶index=(798/100)%10=7
+    //tempNum为上式中的1、10、100
+    inttempNum = (int)pow(10, loop - 1);
+    inti, j;
+    for(i = 0; i < n; i++)
+    {
+        introw_index = (*(p + i) / tempNum) % 10;
+        for(j = 0; j < 20; j++)
+        {
+            if(buckets[row_index][j] == NULL)
+            {
+                buckets[row_index][j] = *(p + i);
+                break;
+            }
+        }
+    }
+    //将桶中的数，倒回到原有数组中
+    intk = 0;
+    for(i = 0; i < 10; i++)
+    {
+        for(j = 0; j < 20; j++)
+        {
+            if(buckets[i][j] != NULL)
+            {
+                *(p + k) = buckets[i][j];
+                buckets[i][j] = NULL;
+                k++;
+            }
+        }
+    }
+}
+```
 
+![ comparison ](/images/dataStructureSort.webp)
 
+## 速记
 
+### 概述作业
 
+> 数据在计算机内存中的表示是指（） 。
+>
+> 数据的存储结构
+>
+> 
+>
+> 数据结构形式地定义为（K，R），其中K是（）的有限集合，R是K上的关系上的有限集合。
+>
+> 数据元素
 
+### 栈与队列
 
-
+>  下列关于栈的叙述中，错误的是：
+>
+> 1. **采用非递归方式重写递归程序时必须使用栈**
+> 2. 函数调用时，系统要用栈保存必要的信息
+> 3. **只要确定了入栈次序，即可确定出栈次序**
+> 4. **栈是一种受限的线性表，允许在其两端进行操作**
+>
+>  
+>
+>  最不适合用作栈的链表是（）。
+>
+> A.只有表头指针没有表尾指针的循环双链表
+>
+> B.只有表尾指针没有表头指针的循环双链表
+>
+> C.只有表尾指针没有表头指针的循环单链表
+>
+> D.**只有表头指针没有表尾指针的循环单链表**
+>
+>  
+>
+> 
+>
+>  
+>
+>  
+>
+>  
+>
+>  
+>
+> 
