@@ -35,25 +35,31 @@ public:
 
 ### 			1.迭代法
 
+* 需要保存：
+  * 1.当前节点上一节点
+  * 2.当前节点下一节点
+
 ```c
 List Reverse( List L )
 {    
     List first=NULL;
     List tmp;
-    while(L!=NULL)
+    while(L!=NULL)			//	L为当前节点
     {
-        tmp=L->Next;
-        L->Next=first;
-        first=L;
-        L=tmp;
+        tmp=L->Next;		//   tmp保存下一节点
+        L->Next=first;		//   修改指向
+        first=L;			//	保存当前节点
+        L=tmp;				//	转到下一个节点
     }
-    return first;
+    return first;			//  返回头结点（不是L,L循环结束后为空）
 }
 ```
 
 
 
 ### 			2.栈
+
+* 两次循环即可
 
 ```c++
 void translateLinklist(Linklist& L)
@@ -203,10 +209,6 @@ private:
         return R-L-1;
     }
 };
-
-作者：陈乐乐
-链接：https://leetcode.cn/problems/longest-palindromic-substring/
-来源：力扣（LeetCode）
 ```
 
 	* 动态规划
@@ -241,11 +243,6 @@ public String longestPalindrome(String s) {
         }
     return maxPal;
 }
-
-作者：windliang
-链接：https://leetcode.cn/problems/longest-palindromic-substring/
-来源：力扣（LeetCode）
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 ```
 
 # 5.约瑟夫环问题

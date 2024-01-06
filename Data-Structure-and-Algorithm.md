@@ -8,7 +8,7 @@ tags: 笔记
 
 ## 树
 
-* **哈夫曼树（最优二叉树）**
+### 哈夫曼树（最优二叉树）
 
 > ​		哈夫曼算法：
 >
@@ -169,26 +169,61 @@ int main()
 
 ```
 
+### 二叉树：求树的高度
 
-
-* **二叉树：先序遍历**
+1. 递归
 
 ```c
-int PreOrder(BiTree T){
-   if(T!=NULL){
-      visit(T);                 //访问根结点
-       
-      PreOrder(T->lchild);      //递归遍历左子树
-      PreOrder(T->rchild);      //递归遍历右子树
-   }
-    else{
-        return 0;				//遍历失败，根节点空
-    }
-    return 1;
-}     
+/*
+使用递归
+*/
+
+int GetHeight(BinTree BT){
+    if(!BT) return 0;
+    return max(GetHeight(BT->Left),GetHeight(BT->Right))+1;
+} 
+int max(int a,int b){return a > b ? a : b;}
 ```
 
-**二叉树：顺序存储**
+2. 使用队列
+
+```c
+//使用队列
+
+int GetHeight( BinTree BT )
+{
+    if(BT==NULL)return 0;
+    BinTree arr[100];
+    BinTree tmpFront;
+    int front=0,rear=0;
+    int h=0;
+    arr[rear++]=BT;
+    int count=1;
+    int nextCount=1;
+    while(front!=rear){
+        h++;
+        count=nextCount;
+        nextCount=0;
+        while(count--){
+            tmpFront=arr[front++];
+            if(tmpFront->Left){
+                arr[rear++]=tmpFront->Left;
+                nextCount++;
+            }
+            if(tmpFront->Right){
+                arr[rear++]=tmpFront->Right;
+                nextCount++;
+            } 
+        }
+    }
+    return h;
+    
+}
+```
+
+
+
+### 二叉树：顺序存储
 
 ​	存储按照完全二叉树来（遇到空节点则 赋值 isEmpty 为 true）
 
@@ -210,6 +245,27 @@ int main(){
 ```
 
 
+
+### 二叉树的遍历
+
+
+
+* **二叉树：先序遍历**
+
+```c
+int PreOrder(BiTree T){
+   if(T!=NULL){
+      visit(T);                 //访问根结点
+       
+      PreOrder(T->lchild);      //递归遍历左子树
+      PreOrder(T->rchild);      //递归遍历右子树
+   }
+    else{
+        return 0;				//遍历失败，根节点空
+    }
+    return 1;
+}     
+```
 
 **二叉树：中序遍历**
 
@@ -270,7 +326,7 @@ void LevelOrder(BiTree T){
 }
 ```
 
-* **线索二叉树**
+### 线索二叉树
 
 > 将空的指针域用以指向前驱后继节点。
 >
@@ -336,11 +392,190 @@ void inOrderTraverse(Node* root)
 }
 ```
 
+### 二叉搜索树
+
+**线索二叉树操作集合**
+
+1. 结构体
+
+```c
+typedef struct TNode *Position;
+typedef Position BinTree;
+struct TNode{
+    ElementType Data;
+    BinTree Left;
+    BinTree Right;
+};
+```
+
+2. 主函数
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef int ElementType;
+typedef struct TNode *Position;
+typedef Position BinTree;
+struct TNode{
+    ElementType Data;
+    BinTree Left;
+    BinTree Right;
+};
+
+void PreorderTraversal( BinTree BT ); /* 先序遍历，由裁判实现，细节不表 */
+void InorderTraversal( BinTree BT );  /* 中序遍历，由裁判实现，细节不表 */
+
+BinTree Insert( BinTree BST, ElementType X );
+BinTree Delete( BinTree BST, ElementType X );
+Position Find( BinTree BST, ElementType X );
+Position FindMin( BinTree BST );
+Position FindMax( BinTree BST );
+
+int main()
+{
+    BinTree BST, MinP, MaxP, Tmp;
+    ElementType X;
+    int N, i;
+
+    BST = NULL;
+    scanf("%d", &N);
+    for ( i=0; i<N; i++ ) {
+        scanf("%d", &X);
+        BST = Insert(BST, X);
+    }
+    printf("Preorder:"); PreorderTraversal(BST); printf("\n");
+    MinP = FindMin(BST);
+    MaxP = FindMax(BST);
+    scanf("%d", &N);
+    for( i=0; i<N; i++ ) {
+        scanf("%d", &X);
+        Tmp = Find(BST, X);
+        if (Tmp == NULL) printf("%d is not found\n", X);
+        else {
+            printf("%d is found\n", Tmp->Data);
+            if (Tmp==MinP) printf("%d is the smallest key\n", Tmp->Data);
+            if (Tmp==MaxP) printf("%d is the largest key\n", Tmp->Data);
+        }
+    }
+    scanf("%d", &N);
+    for( i=0; i<N; i++ ) {
+        scanf("%d", &X);
+        BST = Delete(BST, X);
+    }
+    printf("Inorder:"); InorderTraversal(BST); printf("\n");
+
+    return 0;
+}
+/* 你的代码将被嵌在这里 */
+```
+
+3. 操作集合
+
+```c
+//插入
+BinTree Insert( BinTree BST, ElementType X ){
+    if(BST==NULL) {          /* 若原树为空，生成并返回一个结点的二叉搜索树 */
+        BST = (BinTree)malloc(sizeof(BinTree));
+        BST ->Data = X;
+        BST ->Left = BST ->Right = NULL;
+    }else {         /* 开始寻找要插入元素的位置 */
+        if(X < BST ->Data ) {
+            BST ->Left = Insert(BST ->Left, X);
+        }else if(X > BST ->Data ) {
+            BST ->Right = Insert(BST ->Right, X);
+        }
+        /* X已经存在，不用操作 */
+    }
+    return BST;
+} 
+//删除
+BinTree Delete( BinTree BST, ElementType X ){
+    BinTree Tmp;
+    if(BST==NULL)    
+        printf("Not Found\n");
+    else {
+        if( X < BST->Data)  
+            BST ->Left = Delete(BST->Left, X);          /* 左子树递归删除 */
+        else if(X > BST->Data ) 
+            BST ->Right = Delete(BST->Right , X);       /* 右子树递归删除*/
+        else {                                          /* 找到需要删除的结点 */
+            if(BST->Left && BST->Right) {               /* 被删除的结点有左右子结点 */
+                Tmp=FindMin(BST->Right);                /* 在右子树中找到最小结点填充删除结点 */
+                BST->Data = Tmp ->Data;
+                BST->Right=Delete(BST->Right,BST->Data);/* 递归删除要删除结点的右子树中最小元素 */
+            }else {                                     /* 被删除结点有一个或没有子结点*/
+                Tmp = BST;
+                if(!BST->Left) BST = BST->Right;        /*有右孩子或者没孩子*/ 
+                else if(!BST->Right)    BST = BST->Left;/*有左孩子，一定要加else，不然BST可能是NULL，会段错误*/ 
+                free(Tmp);                              /*如无左右孩子直接删除*/
+            }
+        }
+    }
+    return BST;
+}
+//查找
+Position Find( BinTree BST, ElementType X ){
+    if(BST==NULL)    return NULL;
+    if(BST->Data==X)    return BST; 
+    if(X>BST->Data)     return Find(BST->Right,X);      
+    if(X<BST->Data)     return Find(BST->Left,X);
+ 
+    /*  以下几种写法均可，推荐第上面这一种 
+ 
+    if(!BST)    return NULL;
+    if(BST->Data==X)    return BST; 
+    if(X>BST->Data)     Find(BST->Right,X);     
+    if(X<BST->Data)     Find(BST->Left,X);
+ 
+    if(BST){
+        if(BST->Data==X)    return BST; 
+        if(X>BST->Data)     Find(BST->Right,X);     //如果不写return，则返回过来的值并没有继续返回给最开始的函数 
+        if(X<BST->Data)     Find(BST->Left,X);
+    } 
+    else return NULL;   
+ 
+    if(BST){
+        if(BST->Data==X)    return BST; 
+        if(X>BST->Data)     return  Find(BST->Right,X); 
+        if(X<BST->Data)     return  Find(BST->Left,X);
+    } 
+    return NULL;
+ 
+    if(BST){
+        if(BST->Data==X)    return BST; 
+        if(X>BST->Data)     return Find(BST->Right,X);      
+        if(X<BST->Data)     return Find(BST->Left,X);
+    } 
+    else return NULL;
+    */                          
+}
+/*如果return NULL前面不写else且Find前也不写else，则最后递归返回的也没return，最后只能是执行到了return NULL
+返回了，而如果find 前加上了return则就把递归的结果利用起来了，最后加不加else也无所谓了，而如果直接最后else，
+不加return find也是可以的，加上了else之后就不会被每一次返回时最后的return NULL给覆盖掉，所以也行。 */ 
+Position FindMin( BinTree BST ){
+    if(BST){
+        while(BST->Left){
+            BST=BST->Left;
+        }
+    } 
+    return BST; 
+} 
+Position FindMax( BinTree BST ){
+    if(BST){
+        while(BST->Right){
+            BST=BST->Right;
+        }
+    } 
+    return BST; 
+}
+```
+
 
 
 ## 图
 
-* **并查集**
+### 并查集
 
 ​	 	主要用于解决一些**元素分组**的问题。也可以用来判断图的连通性，它管理一系列**不相交的集合**，并支持两种操作：
 
@@ -392,7 +627,7 @@ int judgeConnect(){
 }
 ```
 
-* **AOE图**
+### AOE图
 
 > *concept:*
 >
@@ -412,7 +647,7 @@ int judgeConnect(){
 >
 > 7、**最晚完工**时间：等于当前边指向结点的最迟发生时间；
 
-* **图的链式存储结构**
+### 图的链式存储结构
 
 ```c
 #include <stdio.h>
@@ -485,7 +720,7 @@ void printGraph(ALGraph G)
 
 ## 查找（搜索）
 
-* **折半搜索**
+### 折半搜索
 
 > 因为折半查找需要方便地定位查找区域，所以它要求线性表必须具有随机存取的特性。因此，该查找法仅适合于顺序存储结构，不适合于链式存储结构，且要求元素按关键字有序排列。
 
@@ -530,7 +765,7 @@ int BinSearch(int array[], int x, int n)
 }
 ```
 
-* **插值查找**
+### 插值查找
 
 > 类似于折半搜索，只是mid的计算方法不一样
 >
@@ -602,7 +837,7 @@ int main()
 }
 ```
 
-* **二叉排序树**
+### 二叉排序树
 
 > 1. 若左子树非空，则左子树上所有结点的值均小于根结点的值。
 > 2. 若右子树非空，则右子树上所有结点的值均大于根结点的值。
@@ -691,13 +926,13 @@ bool DeleteBST(BiTree *T, int key){
 
 ```
 
-* **哈希表（散列表）**
+### 哈希表（散列表）
 
 > ​	散列表是根据关键字而直接进行访问的数据结构。也就是说，散列表建立了关键字和存储地址之间的一种直接映射关系。
 >
 > ​	这种对应关系称为散列函数，又称为哈希(Hash) 函数。按这个思想，采用散列技术将记录存储在一块连续的存储空间中，这块连续存储空间称为散列表或哈希表(Hash table)。那么关键字对应的记录存储位置我们称为散列地址。
 
-* 散列函数的构造方法
+#### 散列函数的构造方法
 
 1. 直接定址法
 
@@ -733,7 +968,7 @@ $$
 
 
 
-* 处理散列冲突
+#### 处理散列冲突
 
 ​				开放地址法（闭散列表）和链地址法（开散列表法）
 
@@ -783,7 +1018,7 @@ $$
 
 ## 排序
 
-* **插入排序**
+### 插入排序
 
 ```c
 void InsertSort(int* arr, int n)
@@ -826,7 +1061,7 @@ void InsertSort(int* arr, int n)
 >
 > 空间复杂度：O(1)
 
-* **希尔排序**
+### 希尔排序
 
 ```c
 //希尔排序
@@ -864,7 +1099,7 @@ void ShellSort(int* arr, int n)
 > 时间复杂度(平均)：O(N^1.3)
 > 空间复杂度：O(1)
 
-* **选择排序**
+### 选择排序
 
 ```c
 //选择排序
@@ -919,7 +1154,7 @@ c
 >
 > 空间复杂度：O(1)
 
-* **冒泡排序**
+### 冒泡排序
 
 ```c
 //冒泡排序
@@ -956,7 +1191,7 @@ void BubbleSort(int* arr, int n)
 >
 > 空间复杂度：O(1)
 
-* **堆排序**
+### 堆排序
 
 > 堆的分类：
 >
@@ -1032,7 +1267,7 @@ int main()
 
 
 
-* **快速排序（挖坑法）**
+### 快速排序（挖坑法）
 
 ```c
 int PartSort(int* arr, int left, int right)
@@ -1065,7 +1300,7 @@ int PartSort(int* arr, int left, int right)
 
 
 
-* **归并排序**
+### 归并排序
 
 ```c
 void Merge(int sourceArr[],int tempArr[], int startIndex, int midIndex, int endIndex){
@@ -1116,7 +1351,7 @@ int main(int argc, char * argv[]) {
 >
 >  空间复杂度：O(N)，归并排序需要一个与原数组相同长度的数组做辅助来排序。
 
-* **基数排序**
+### 基数排序
 
 ```c
 #include<math.h>
