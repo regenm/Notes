@@ -245,7 +245,7 @@ public String longestPalindrome(String s) {
 }
 ```
 
-# 5.约瑟夫环问题
+# 6.约瑟夫环问题
 
 1. 直接用数组实现
 
@@ -351,6 +351,45 @@ int main()
 	return 0;
 } 
 ```
+
+# 7.列车调度问题
+
+​	建立一个数组，当输入一个列车序号时开辟轨道，再输入一个列车序号，在所有轨道中**查找比列车序号大的列车序号**，替换它，如果没有比它大的，则另开辟一个轨道。用top记录开辟轨道的数量。
+
+```c
+#include<stdio.h>
+int a[1000000];
+int main()
+{
+	int n;
+	scanf("%d",&n);
+	int i,m,j,top=0;
+	for(i=0;i<n;i++){
+		scanf("%d",&m);
+		if(top==0||a[top-1]<m){  //当top==0时，开辟轨道，当输入的列车序号比最上的轨道列车序号还大时，开辟轨道
+			a[top++]=m;
+		}else                   //二分查找
+		{ 
+			int high=top-1,low=0,mid;
+			while(low<=high)
+			{
+				mid=(low+high)/2;
+				if(a[mid]>m)
+				{
+					high=mid-1;
+				}else
+				{
+					low=mid+1;
+				}
+			}//a[mid]=m;
+			a[low]=m;
+		}
+	}printf("%d",top);            //轨道数
+}
+
+```
+
+
 
 
 
