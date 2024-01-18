@@ -223,3 +223,7 @@ chmod 777 regenMosquittoScriptSubRemote.sh
 # VPN隧道搭建
 
 # 自建服务器（搭配ZeroTier食用）
+
+## 1. begin
+
+​	虽然和hxy合伙买的白菜价国外服务器性能也还够用，但是也仅仅是够用，之前发现的内网穿透神器

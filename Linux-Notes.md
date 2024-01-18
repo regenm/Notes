@@ -148,3 +148,12 @@ tar -xvf linuxFiles.tar
 # 用户权限
 
 ![img](https://www.runoob.com/wp-content/uploads/2014/06/file-llls22.jpg)
+
+# 开放端口
+
+## 1. 查看端口
+
+## 2.开放端口
+
+## 3.检查是否开放成功
+
