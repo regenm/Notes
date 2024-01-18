@@ -105,8 +105,7 @@ cd /etc/mosquitto
 
 ​				在 **/etc/mosquitto/conf.d**目录下有一个叫 README 的文件，上面写了信息：
 
-> Any files placed in this directory that have a .conf ending will be loaded as
-> config files by the broker. Use this to make your local config.
+> # Any files placed in this directory that have a .conf ending will be loaded as config files by the broker. Use this to make your local config.
 
 ```bash
 cd /etc/mosquitto/conf.d
