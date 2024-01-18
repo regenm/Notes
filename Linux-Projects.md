@@ -12,6 +12,51 @@ tags: 笔记
 
 # ZeroTier 内网穿透
 
+## 1.简介
+
+​	官网：[ZeroTier](https://www.zerotier.com/)
+
+> **ZeroTier Client :**
+>
+> The ZeroTier client is used to connect to virtual networks previously created in the ZeroTier Central web-based [UI](https://en.wikipedia.org/wiki/User_interface). Endpoint connections are peer-to-peer and [end-to-end encrypted](https://en.wikipedia.org/wiki/End-to-end_encryption). [STUN](https://en.wikipedia.org/wiki/STUN) and [hole punching](https://en.wikipedia.org/wiki/Hole_punching_(networking)) are used to establish direct connections between peers behind [NAT](https://en.wikipedia.org/wiki/Network_Address_Translation). Direct connection route discovery is made with the help of a global network of *root servers* via a mechanism similar to [ICE](https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment) in [WebRTC](https://en.wikipedia.org/wiki/WebRTC).
+
+## 2.安装
+
+​		实际上十分简单，对于Windows，iPad，Android，macOS都有相应软件。
+
+![](/images/ZeroTIerDownload.png)
+
+### linux
+
+1. 安装
+
+```bash
+curl -s https://install.zerotier.com | sudo bash
+```
+
+2. 操作：加入，离开，查看已经连接的网络
+
+```bash
+zerotier-cli join <NETWORK ID>
+#加入
+zerotier-cli leave <NETWORK ID>
+#离开
+zerotier-cli listnetworks
+#连接列表
+```
+
+## 3.管理
+
+​	直接登录官网即可进行对已组网络的管理，例如授权用户，修改网络内部IP地址以及备注信息等等
+
+![Admin Page](/images/ZeroTierAdmin.jpg)
+
+
+
+## 4.Last
+
+​	世上还是好人多啊，ZeroTier的出现真的让内网穿透方便了很多，免费用户的配置也很不错！
+
 
 
 # FTP 服务器搭建
