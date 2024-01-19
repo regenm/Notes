@@ -226,4 +226,34 @@ chmod 777 regenMosquittoScriptSubRemote.sh
 
 ## 1. begin
 
-​	虽然和hxy合伙买的白菜价国外服务器性能也还够用，但是也仅仅是够用，之前发现的内网穿透神器
+​	虽然和hxy合伙买的白菜价国外服务器性能也还够用，但是也仅仅是够用，之前发现的内网穿透神器Zerotier刚好可以拿来当我的梦中情机的最后一块拼图。使用ZeroTier就可以让我方便的在SH连接到JX的家中局域网内的服务器了！
+
+## 2.介绍
+
+### 	1.硬件介绍
+
+​			硬件部分的清单：
+
+> CPU : E3 1230 v2 (4核8线，3.3ghz)
+>
+> 显卡 ： gt610 	（亮机即可，且低功耗）
+>
+> 内存：8g
+>
+> 存储：240（固态）+500（机械）
+
+### 	2.软件介绍
+
+​		由于我正在使用的pc中恰好有四个下载好的镜像文件，分别是 macOS.Ventura_13.4 , deepin ，ubuntu22.04，kali2023，最终使用的是kali,原因在于kali已经安装好绝大部分软件和其需运行的环境，例如：httpd，JDK，javarun，makefile等等。
+
+## 3.组装（跳过）
+
+## 4.配置ZeroTier(如上篇ZeroTier内网穿透)
+
+## 5.结束
+
+最终效果，通过ipad的终端ssh外网连接kali
+
+![ipadConnectKali](/images/ipadConnectKali.jpg)
+
+# makefile
