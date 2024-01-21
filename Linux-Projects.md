@@ -240,7 +240,7 @@ chmod 777 regenMosquittoScriptSubRemote.sh
 >
 > 内存：8g
 >
-> 存储：240（固态）+500（机械）
+> 外存：240（固态）+500（机械）
 
 ### 	2.软件介绍
 
@@ -257,3 +257,143 @@ chmod 777 regenMosquittoScriptSubRemote.sh
 ![ipadConnectKali](/images/ipadConnectKali.jpg)
 
 # makefile
+
+
+
+## 1.make简要介绍
+
+
+
+> ​	In [software development](https://en.wikipedia.org/wiki/Software_development), **Make** is a [build automation](https://en.wikipedia.org/wiki/Build_automation) tool that [builds](https://en.wikipedia.org/wiki/Software_build) [executable programs](https://en.wikipedia.org/wiki/Executable_program) and [libraries](https://en.wikipedia.org/wiki/Library_(software)) from [source code](https://en.wikipedia.org/wiki/Source_code) by reading [files](https://en.wikipedia.org/wiki/File_(computing)) called *makefiles* which specify how to derive the target program. Though [integrated development environments](https://en.wikipedia.org/wiki/Integrated_development_environment) and [language](https://en.wikipedia.org/wiki/Programming_language)-specific [compiler](https://en.wikipedia.org/wiki/Compiler_(computing)) features can also be used to manage a build process, Make remains widely used, especially in [Unix](https://en.wikipedia.org/wiki/Unix) and [Unix-like](https://en.wikipedia.org/wiki/Unix-like) [operating systems](https://en.wikipedia.org/wiki/Operating_system).
+
+> ​	Make is not limited to building programs. It can also be used to manage any project where some files need to be updated automatically from other files whenever the other files change.
+
+
+
+## 2.makefile简要介绍
+
+​	makefile文件用于告诉make命令如何执行编译和链接。
+
+​	当一个文件具有很多个.c文件和.h文件时，如果将makefile写好了，就只需要一行代码`make`即可完成编译链接或者`make clean`删除所有目标文件，同时还能具备以下特性：
+
+> ​      1.如果这个工程没有编译过，那么所有C文件都会编译并被链接。
+>
+> ​      2.如果这个工程的某几个C文件被修改，那么只编译被修改的C文件，并链接目标程序。
+>
+> ​      3.如果这个工程的头文件被改变了，那么我们需要编译引用了这几个头文件的C文件，并链接目标程序。
+
+
+
+
+
+## 3.makefile的规则
+
+```makefile
+ target ... : prerequisites ...
+
+          command
+
+          ...
+
+          ...
+         -------------------------------------------------------------------------------
+```
+
+* target : 目标文件（可以使object文件，可执行文件，还可以是**标签**）
+* prerequisites ：生成target所需要的文件或是目标。
+* command也就是make需要执行的命令。（Shell命令）
+
+## 4.makefile的使用
+
+​	makefile的规则看似十分简单，但是写好一个makefile却是不简单的。下面举例说明```
+
+```bash
+#假设已经存在3个c文件，4个.h文件，分别是:
+cFile1.c cFile2.c cFile3.c
+hFile1.h hFile2.h hFile3.h hFile4.h
+```
+
+​		如果我们最终想要生成可执行文件main，那么makefile可以这样写，以下是我使用在线makefile生成器生成的。
+
+​		同时介绍一下gcc的参数：
+
+> * -g可执行程序包含调试信息
+>   -g为了调试用的
+>   加个-g 是为了gdb 用，不然gdb用不到
+>
+> * -o指定输出文件名
+>   -o output_filename，确定输出文件的名称为output_filename，同时这个名称不能和源文件同名。如果不给出这个选项，gcc就给出
+>
+> 
+>
+> * -c 只编译不链接
+>   产生.o文件，就是obj文件，不产生执行文件
+>
+> * -D 其意义是添加宏定义
+>
+> 
+>
+> * -w的意思是关闭编译时的警告，也就是编译后不显示任何warning，因为有时在编译之后编译器会显示一些例如数据转换之类的警告，这些警告是我们平时可以忽略的。
+>
+> 
+>
+> * -W选项类似-Wall，会显示警告，但是只显示编译器认为会出现错误的警告。
+>
+> * -Wall选项意思是编译后显示所有警告
+
+```makefile
+#
+# In order to execute this "Makefile" just type "make"
+#	A. Delis (ad@di.uoa.gr)
+# web: https://solver.assistedcoding.eu/makefilegen
+#
+
+OBJS	= cFile1.o cFile2.o cFile3.o
+SOURCE	= cFile1.c cFile2.c cFile3.c
+HEADER	= hFile1.h hFile2.h hFile3.h hFile4.h
+OUT	= main.out
+CC	 = gcc
+FLAGS	 = -g -c -Wall				 
+LFLAGS	 = 
+# -g option enables debugging mode 
+# -c flag generates object code for separate files
+
+
+all: $(OBJS)
+	$(CC) -g $(OBJS) -o $(OUT) $(LFLAGS)
+
+
+# create/compile the individual files >>separately<<
+cFile1.o: cFile1.c
+	$(CC) $(FLAGS) cFile1.c -lcunit
+
+cFile2.o: cFile2.c
+	$(CC) $(FLAGS) cFile2.c -lcunit
+
+cFile3.o: cFile3.c
+	$(CC) $(FLAGS) cFile3.c -lcunit
+
+
+# clean house
+clean:
+	rm -f $(OBJS) $(OUT)
+
+# run the program
+run: $(OUT)
+	./$(OUT)
+```
+
+
+
+# cmake
+
+
+
+
+
+
+
+
+
+
+

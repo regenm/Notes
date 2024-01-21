@@ -267,3 +267,4 @@ firewall-cmd --zone=public --remove-port=22/tcp --permanent
 sudo ufw denty 端口
 ```
 
+# 
