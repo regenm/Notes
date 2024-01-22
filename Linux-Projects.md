@@ -387,6 +387,147 @@ run: $(OUT)
 
 # cmake
 
+## 1. 简要介绍
+
+> From Wikipedia, the free encyclopedia
+>
+> In [software development](https://en.wikipedia.org/wiki/Software_development), **CMake** is [cross-platform](https://en.wikipedia.org/wiki/Cross-platform) [free and open-source software](https://en.wikipedia.org/wiki/Free_and_open-source_software) for [build automation](https://en.wikipedia.org/wiki/Build_automation), [testing](https://en.wikipedia.org/wiki/Software_testing), [packaging](https://en.wikipedia.org/wiki/Package_(package_management_system)) and [installation](https://en.wikipedia.org/wiki/Installation_(computer_programs)) of software by using a [compiler](https://en.wikipedia.org/wiki/Compiler)-independent method.[[3\]](https://en.wikipedia.org/wiki/CMake#cite_note-3) CMake is not a build system itself; it generates another system's build files.[[4\]](https://en.wikipedia.org/wiki/CMake#cite_note-:1-4) It supports directory hierarchies and applications that depend on multiple libraries. It can invoke native build environments such as [Make](https://en.wikipedia.org/wiki/Make_(software)), [Qt Creator](https://en.wikipedia.org/wiki/Qt_Creator), [Ninja](https://en.wikipedia.org/wiki/Ninja_(build_system)), [Android Studio](https://en.wikipedia.org/wiki/Android_Studio), Apple's [Xcode](https://en.wikipedia.org/wiki/Xcode), and [Microsoft Visual Studio](https://en.wikipedia.org/wiki/Microsoft_Visual_Studio).[[4\]](https://en.wikipedia.org/wiki/CMake#cite_note-:1-4) It has minimal dependencies, requiring only a [C++](https://en.wikipedia.org/wiki/C%2B%2B) compiler on its own build system.[[4\]](https://en.wikipedia.org/wiki/CMake#cite_note-:1-4)
+>
+> CMake is distributed as [free and open-source software](https://en.wikipedia.org/wiki/Free_and_open-source_software) under a permissive [BSD-3-Clause](https://en.wikipedia.org/wiki/BSD_licenses) license.[[](https://en.wikipedia.org/wiki/CMake#cite_note-5)
+
+​	我的理解就是cmake是一款能够夸平台的生成makefile的工具，这样就不需要写复杂的makefile了。
+
+
+
+## 2.	cmake使用
+
+### 	1.使用流程 
+
+	1. 在项目根目录下创建一个名为` CMakeLists.txt`的文件
+
+2. 编写该文件（当文件比较少的时候）
+
+```cmake
+cmake_minimum_required(VERSION 3.15)	# 版本要求
+
+# set the project name
+project(firstProject)
+
+# add the executable（包括所有的用到的源文件）
+add_executable(firstOut a.cpp b.cpp)
+```
+
+3. 使用cmake命令生成makefile
+
+* cmake命令的使用
+
+```bash
+Usage
+
+  cmake [options] <path-to-source>
+  cmake [options] <path-to-existing-build>
+  cmake [options] -S <path-to-source> -B <path-to-build>
+
+Specify a source directory to (re-)generate a build system for it in the
+current working directory.  Specify an existing build directory to
+re-generate its build system.
+
+```
+
+4. 使用make得到输出
+
+### 	2.单个源文件的项目	
+
+1. 编写main.cpp
+
+```cpp
+#include<stdio.h>
+int main(){printf("hello\n");return 0;}
+```
+
+2. 编写CMakeLists.txt
+
+```cmake
+cmake_minimum_required(VERSION 3.15)
+
+# set the project name
+project(firstProject)
+
+# add the executable
+add_executable(firstOut main.cpp)
+```
+
+3. 创建输出文件夹并且进行输出
+
+```bash
+mkdir build
+cmake -S . -B ./build/
+```
+
+4. 使用make进行编译链接即可得到可执行文件`firstOut`
+
+```bash
+make
+```
+
+### 3. CMakeLists.txt 的写法
+
+#### 1.使用set
+
+* 定义变量 **set** ，类型为字符串
+
+```cmake
+set(outName[forstOut])
+```
+
+* 使用宏
+
+```cmake
+set(CMAKE_CXX_STANDARD 11)   			# 指定c++标准的宏
+set(EXECUTABLE_OUTPUT_PATH 	/home/regen/CMake/regen_1/build)# 指定可执行文件的输出目录
+```
+
+* 取值
+
+```cmake
+${outName}
+```
+
+#### 2.文件搜索（便于源文件很多的情况）获取源文件名字
+
+​	建议将源文件放在独立的目录下，便于获取源文件名字。
+
+1. 使用`aux_source_directory(< dir > < variable >)`
+
+```cmake
+aux_source_directory(< dir > < variable >)
+aux_source_directory(${PROJECT_SOURCE_DIR} SRC)
+```
+
+2. 使用file（用于应对很多源文件在不同目录的情况）
+
+* 后缀搜索目录下所有源文件
+
+```cmake
+file(GLOB MAIN_SRC ${PROJECT_SOURCE_DIR}/src/*.cpp)
+file(GLOB MAIN_HEAD ${PROJECT_SOURCE_DIR}/include/*.h)
+```
+
+3. 头文件与源文件分开放的处理方法
+
+* 使用宏
+
+```cmake
+include_directories(headpath)
+```
+
+
+
+
+
+## 3.静态库和动态库
+
+​	pause.打算在下次用到的时候补充
 
 
 
@@ -394,6 +535,57 @@ run: $(OUT)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+​                                
 
 
 
