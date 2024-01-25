@@ -1,7 +1,7 @@
 ---
 title: PHOTOGRAPHY!
 date: 2023-09-20 00:31:30
-tags: 旅行
+tags: [旅行, 摄影]
 ---
 
 

@@ -1,7 +1,7 @@
 ---
 title: leetcode刷题笔记
 date: 2023-09-21 00:05:26
-tags: 笔记
+tags: [笔记, Data-Structure-and-Algorithm]
 ---
 
 # 1.两数之和。

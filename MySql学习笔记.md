@@ -1,7 +1,7 @@
 ---
 title: MySql学习笔记
 date: 2023-10-31 12:27:48
-tags: 笔记
+tags: [笔记, mysql]
 ---
 
 # MySQL学习笔记（8.0）

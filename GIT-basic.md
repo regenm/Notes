@@ -1,7 +1,7 @@
 ---
 title: GIT basic
 date: 2023-11-26 21:01:57
-tags: 笔记
+tags: [笔记, git]
 ---
 
 # Git 以及github，gitee的使用

@@ -1,7 +1,7 @@
 ---
 title: Regen's first page
 date: 2023-09-12 10:41:04
-tags: 笔记
+tags: [笔记, about]
 ---
 
 # HOLA!!!!

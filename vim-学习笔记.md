@@ -1,7 +1,7 @@
 ---
 title: vim 学习笔记
 date: 2023-09-16 23:49:02
-tags: 笔记
+tags: [笔记, vim]
 ---
 
 # * VIM普通模式

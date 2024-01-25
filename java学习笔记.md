@@ -1,7 +1,7 @@
 ---
 title: java学习笔记
 date: 2023-10-16 23:55:18
-tags: 笔记
+tags: [笔记, java]
 ---
 
 # JAVA学习笔记

@@ -1,7 +1,7 @@
 ---
 title: Data Structure and Algorithm
 date: 2023-11-12 21:58:40
-tags: 笔记
+tags: [笔记, Data-Structure-and-Algorithm]
 ---
 
 # Start
