@@ -47,7 +47,83 @@ tags: [笔记, 嵌入式, STM32]
 >
 >    STM32 系列还支持多种通信协议，如 SPI、I2C、CAN、USART 等。这使得 STM32 系列非常适合各种应用，特别是需要与其他设备或模块进行通信的应用。
 
-## 3.STM32最小系统制作
+## 3.STM32F103C8T6 最小系统制作
 
+### 1.供电电路
 
+#### 1.芯片特性
+
+* 操作定压Vdd=2.0~3.6v
+* Vdd关闭后，RTC和备用寄存器可以从Vbat供电
+
+### 2.电源转换电路
+
+* USB供电（5v）转3.3v供电
+
+​	采用AMS1117芯片
+
+* AMS1117
+  * 特点：
+
+> Three Terminal Adjustable or Fixed Voltages* 
+>
+> • High Efficiency Linear Regulators  1.5V, 1.8V, 2.5V, 2.85V, 3.3V and 5.0V 
+>
+> • Post Regulators for Switching Supplies  • Output Current of 1A 
+>
+> • 5V to 3.3V Linear Regulator  
+>
+> • Operates Down to 1V Dropout 
+>
+> • Line Regulation: 0.2% Max. 
+>
+> • Active SCSI Terminators  
+>
+> • Load Regulation: 0.4% Max. 
+>
+> • SOT-223, TO-252 and SO-8 package
+
+### 3.SWD下载电路
+
+* PA13和PA14为STM32F103C8T6芯片的SWD下载调试引脚
+
+### 4.时钟电路
+
+* 时钟源
+
+> 三个不同的时钟源可以用来驱动系统时钟(SYSCLK)： 
+>
+> ● HSI晶振时钟(高速内部时钟信号)  
+>
+> ● HSE晶振时钟(高速外部时钟信号)  
+>
+> ● PLL时钟 
+>
+> STM32有两个二级时钟源： 
+>
+> ● 40kHz的低速内部RC，它可以驱动独立看门狗，还可选择地通过程序选择驱动RTC。RTC 用于从停机/待机模式下自动唤醒系统。 
+>
+> ● 32.768kHz的低速外部晶振，可选择它用来驱动RTC(RTCCLK)。
+
+* 时钟电路（晶振电路）
+
+### 5.复位电路
+
+* 复位条件：
+  * NRST引脚上出现低电平(外部复位)  
+  * 窗口看门狗计数终止(WWDG复位)  
+  * 独立看门狗计数终止(IWDG复位)  
+  * 软件复位(SW复位)  
+  * 低功耗管理复位
+
+* 复位电路
+
+### 6.外围测试电路
+
+* LED测试电路
+
+> 1. 电源指示灯
+> 2. 烧录指示灯
+
+* 引脚引出
 
