@@ -174,7 +174,7 @@ mosquitto_pub -h "IP address" -p 1883 -u username -P regen -t "test" -m "hello m
 
 ​				为了方便 mosquitto 的使用，可以写几个脚本用于发布和订阅
 
-1. 发布
+1.  发布
 
 ```bash
 vim regenMosquittoScriptSendRemote.sh
@@ -222,7 +222,19 @@ chmod 777 regenMosquittoScriptSubRemote.sh
 
 # VPN隧道搭建
 
+## 1.协议选择 V2RAY的VMess协议
 
+## 2.一键安装脚本 ：v2ray.sh
+
+```bash
+sudo su root
+
+bash <(curl -s -L https://git.io/v2ray.sh)
+```
+
+## 3.查看信息
+
+信息目录：` /etc/v2ray/config.json`
 
 # 自建服务器（搭配ZeroTier食用）
 
