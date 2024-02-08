@@ -20,7 +20,7 @@ tags: [笔记, 嵌入式, esp8266, mosquitto,  mqtt, linux, IoT,物联网]
 
 ## 1.前期准备
 
-​	首先，在已经搭建好的mqtt服务器上创建了用户`user`和密码`passwd`，同时处于安全性考虑禁止匿名访问。[配置mqtt服务器的过程](ToBeContinued)
+​	首先，在已经搭建好的mqtt服务器上创建了用户`user`和密码`passwd`，同时处于安全性考虑禁止匿名访问。[配置mqtt服务器的过程](https://regenm.gitee.io/2024/02/09/MQTT服务器搭建（mosquitto）/))
 
 ​	创建好测试主题（topic）`test`后进行测试。多平台测试收发message没问题。
 

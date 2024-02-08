@@ -161,4 +161,4 @@ chmod 777 regenMosquittoScriptSubRemote.sh
 
 * 连接esp32或8266
 
-[看看这个esp8266连接mqtt服务器的项目吗？](ToBeContinued)
+看看这个esp8266连接mqtt服务器的项目吗？([esp8266连接服务器（基于mosquitto的mqtt server） | Regen (gitee.io)](https://regenm.gitee.io/2024/02/09/esp8266连接服务器（基于mosquitto的mqtt-server）/)
