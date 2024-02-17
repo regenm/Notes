@@ -18,16 +18,20 @@ toBeContinued
 
 ​	docker 中的几个概念：
 
-1. dockerfile
-2. image
-3. container
-
-
+> 1. dockerfile
+> 2. image
+> 3. container
 
 ## dockerfile
 
+​	`Dockerfile` 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。感觉就像`makefile`一样。
 
+## image
 
+​	Docker镜像（Docker Image）就是一个只读的模板。比如，一个镜像可以包含一个完整的[Ubuntu](https://so.csdn.net/so/search?q=Ubuntu&spm=1001.2101.3001.7020)操作系统环境。镜像可以用来创建Docker容器。
 
+## container
+
+​	容器是镜像的运行时实例，容器是独立运行的一个或一组应用，以及它们的运行态环境。
 
 ​	
