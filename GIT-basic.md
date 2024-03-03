@@ -6,12 +6,15 @@ tags: [笔记, git]
 
 # Git 以及github，gitee的使用
 
-> git简介：
->
+## git简介：
+
+
+
 > Git (/ɡɪt/) is a distributed version control system that tracks changes in any set of computer files, usually used for coordinating work among programmers who are collaboratively developing source code during software development. Its goals include speed, data integrity, and support for distributed, non-linear workflows (thousands of parallel branches running on different computers).
 
-* **What is Git?**
-  Git is a popular version control system. It was created by Linus Torvalds in 2005, and has been maintained by Junio Hamano since then.
+## **What is Git?**
+
+Git is a popular version control system. It was created by Linus Torvalds in 2005, and has been maintained by Junio Hamano since then.
 
 It is used for:
 
@@ -19,7 +22,7 @@ Tracking code changes
 Tracking who made changes
 Coding collaboration
 
-* **What does Git do?**
+## **What does Git do?**
 
 Manage projects with **Repositories**
 **Clone** a project to work on a local copy
@@ -28,7 +31,7 @@ Manage projects with **Repositories**
 **Pull** the latest version of the project to a local copy
 **Push** local updates to the main project
 
-*  **Working with Git**
+## **Working with Git**
 
 Initialize Git on a folder, making it a Repository
 Git now creates a hidden folder to keep track of changes in that folder
@@ -44,37 +47,36 @@ Shift focus to GitHubGitHub
 Shift focus to BitbucketBitbucket
 Shift focus to GitLabGitLab
 
-* **Why Git?**
+## **Why Git?**
 
 Over 70% of developers use Git!
 Developers can work together from anywhere in the world.
 Developers can see the full history of the project.
 Developers can revert to earlier versions of a project.
 
-* **What is GitHub?**
+## **What is GitHub?**
 
 Git is not the same as GitHub.
 GitHub makes tools that use Git.
 GitHub is the largest host of source code in the world, and has been owned by Microsoft since 2018.
 In this tutorial, we will focus on using Git with GitHub.
 
+**git 有图形化界面（gui）和命令行（bash），这里仅使用git命令行，即git（bash）。**
 
-git 有图形化界面（gui）和命令行（bash），这里仅使用git命令行，即git（bash）。
+### **初始化**
 
-* **初始化**
-
-1. check git version and info
+#### check git version and info
 
 ```bash
 git —version
 
 ```
 
-2. configure git
+#### configure git
 
 ```bash
-git config --global user.name "regen"		# global means all the repos are in charge
-git config --global user.email "regenissb@gmail.com"
+git config --global user.name "xxxxx"		# global means all the repos are in charge
+git config --global user.email "xxxxxxxxx@gmail.com"
 
 # if you just want to use “regen” for just once , you can remove “—global”
 
@@ -83,7 +85,7 @@ git config  user.email "regenissb@gmail.com"
 
 ```
 
-3. initialize you repo 
+#### initialize you repo 
 
 ```bash
 #use mkdir and cd to create you working file . Then
@@ -98,7 +100,7 @@ touch hello.c
 
 ```
 
-* ** file operation  **
+###  file operation
 
 1. check file status
    Files in the repo has 2 status:
@@ -162,7 +164,7 @@ git commit -a -m "Updated index.html with a new line"
 git log
 ```
 
-* **GIT branch**
+## **GIT branch**
 
 ​	Introduction :
 
@@ -176,14 +178,14 @@ git log
 >
 > Branching in Git is very lightweight and fast!
 
-1. create new git branch
+#### create new git branch
 
 ```bash
 git branch newBranch
 	# add a new branch
 ```
 
-2. check out the branches
+#### check out the branches
 
 ```bash
 git branch
@@ -193,14 +195,14 @@ git branch
 # The ' * 'means that you are working on master branch.
 ```
 
-3. move branch
+#### move branch
 
 ```bash
 git checkout newbranch 		# switch to new branch 'newBranch'
 
 ```
 
-4. check status of this branch , add to stage and commit . (same code)
+#### check status of this branch , add to stage and commit . (same code)
 
 ```bash
 git status
@@ -208,7 +210,7 @@ git add --all
 git commit -m "new changes in branch newBranch"
 ```
 
-* merge branch 
+#### merge branch 
 
 1. In order to merge two branches, we need to change to the master branch:
 
@@ -230,17 +232,60 @@ git branch -d newBranch
 
 * merge conflict
 
-**其他操作**
+## **其他操作**
 
 * GIT Associating a local repository to a remote repository
 
 ```bash
-git remote add origin git@github.com:beiszhihao/test.git
+git remote add origin git@github.com:regen/test.git
 ```
 
 ```bash
 
 git push -u origin master
 ```
-**Situations**
+## 使用案例
+
+### 	多个设备同一账号，在不同的场景使用github同步代码。
+
+#### 终端:
+
+##### 初始化设置
+
+```bash
+# 设置用户
+git config --global user.name "xxxxx"		# global means all the repos are in charge
+git config --global user.email "xxxxxxxxx@gmail.com"
+```
+
+##### github添加ssh公钥匙
+
+```bash
+ssh-keygen -t rsa -C "xxxxxxxxx@gmail.com"
+```
+
+将生成的rsq_pub中的内容复制到github里的ssh栏
+
+##### 开始
+
+* 复制仓库
+
+```bash
+git clone git@github.com:regenm/Notes.git
+```
+
+* 修改前更新
+
+```bash
+git pull origin master
+```
+
+* 修改后上传
+
+```bash
+git add -A
+git commit -m "add an application of git"
+git status
+git push
+```
 
