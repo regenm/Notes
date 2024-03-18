@@ -106,6 +106,13 @@ sudo apt --fix-broken install
 
 ### 4.2  代码控制
 
-#### 4.2.1 使用Python
+#### 4.2.1 使用Python的命令模式
 
+```python
+>>> import RPi.GPIO as GPIO
+>>> GPIO.setmode(GPIO.BOARD)
+>>> GPIO.setup(11,GPIO.OUT)
+>>> GPIO.output(11,True)
+```
 
+于是报错了，没有权限，直接换root就好了。好了现在又精通一个开发板的点灯了嘿嘿。
