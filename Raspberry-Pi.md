@@ -115,4 +115,51 @@ sudo apt --fix-broken install
 >>> GPIO.output(11,True)
 ```
 
-于是报错了，没有权限，直接换root就好了。好了现在又精通一个开发板的点灯了嘿嘿。
+于是报错了，没有权限，直接换root就好了。好了现在又精通一个开发板的点灯了嘿嘿
+
+## 5. 远程ssh
+
+​	学以致用，之前在` Linux Projects`里面学习了使用`ZeroTier`进行内网穿透以提供远程服务。试试在我的内网频道加入新的成员`Raspberry PI`吧 ！
+
+* 开头也需要加`sudo`，否则报错
+
+```bash
+sudo curl -s https://install.zerotier.com | sudo bash
+```
+
+* 加入我的内网
+
+```bash
+zerotier-cli join <NETWORK ID>
+```
+
+* 开机自启动
+
+1. 新建一个脚本
+
+```bash
+vim AutoStart/ZeroTierAutoStart.sh
+```
+
+```bash
+#!/bin/sh
+sudo zerotier-cli join <network ID>
+echo "zerotier network joined successfully"
+```
+
+2. 添加自启动
+
+```
+vim /etc/rc.local
+```
+
+添加
+
+```bash
+su regen -c "exec /home/regen/AutoStart/ZeroTierAutoStart.sh"
+```
+
+3. 结束！
+
+​	现在就可以只需要给树莓派供个电就行了，可以远程写脚本，玩树莓派咯。
+
