@@ -296,29 +296,28 @@ HAL库：HAL库不仅提供了基础的外设驱动程序，还支持一些高�
 
 ### 	概念解释
 
-1. **中断向量**：
+#### **中断向量**：
 
-    中断向量是指用于唤醒处理器并跳转到相应**中断服务程序（ISR）的特定地址**。在中断发生时，处理器会根据中断类型查找相应的中断向量，并跳转到相应的中断服务程序开始执行中断处理。**中断向量通常是固定的**，由处理器或芯片设计者确定，因为它们对应于具体的中断类型。例如，某个中断类型可能对应到内存中的特定地址，而另一个中断类型可能对应到另一个地址。
+中断向量是指用于唤醒处理器并跳转到相应**中断服务程序（ISR）的特定地址**。在中断发生时，处理器会根据中断类型查找相应的中断向量，并跳转到相应的中断服务程序开始执行中断处理。**中断向量通常是固定的**，由处理器或芯片设计者确定，因为它们对应于具体的中断类型。例如，某个中断类型可能对应到内存中的特定地址，而另一个中断类型可能对应到另一个地址。
 
-2. **中断向量表**：
+#### **中断向量表**：
 
-    中断向量表是一张表格，存储着所有中断类型对应的中断向量。每个中断向量都包含了中断发生时处理器应该跳转到的地址。在许多嵌入式系统中，中断向量表通常存储在固定的内存位置，处理器在发生中断时会根据中断类型找到相应的中断向量，并跳转到相应的中断服务程序。中断向量表的大小通常由中断类型的数量决定。
+中断向量表是一张表格，存储着所有中断类型对应的中断向量。每个中断向量都包含了中断发生时处理器应该跳转到的地址。在许多嵌入式系统中，中断向量表通常存储在固定的内存位置，处理器在发生中断时会根据中断类型找到相应的中断向量，并跳转到相应的中断服务程序。中断向量表的大小通常由中断类型的数量决定。
 
-3. **NVIC**
+#### **NVIC**
 
-    NVIC是ARM Cortex-M系列微控制器中的一个重要组件，用于管理和控制中断
+NVIC是ARM Cortex-M系列微控制器中的一个重要组件，用于管理和控制中断
 
-4. **AFIO**
+#### **AFIO**
 
-    AFIO代表Alternate Function Input Output（备用功能输入输出），是STM32系列微控制器中的一个模块。AFIO模块允许用户配置GPIO引脚的备用功能，包括串行通信、定时器、中断控制等。
+AFIO代表Alternate Function Input Output（备用功能输入输出），是STM32系列微控制器中的一个模块。AFIO模块允许用户配置GPIO引脚的备用功能，包括串行通信、定时器、中断控制等。
 
-    
+
 
 ### 	硬件特性
 
 1. 68个可屏蔽中断通道，包含EXTI、TIM、ADC、USART、SPI、I2C、RTC等多个外设
 2. 使用**NVIC**`NVIC代表Nested Vectored Interrupt Controller（嵌套向量中断控制器）。NVIC是ARM Cortex-M系列微控制器中的一个重要组件，用于管理和控制中断。`统一管理中断，每个中断通道都拥有16个可编程的优先等级，可对优先级进行分组，进一步设置抢占优先级和响应优先级
-
 3. 优先级分组
     1. 抢占优先级：越高可以中断嵌套
     2. 响应优先级：越高可以优先排队
@@ -330,6 +329,48 @@ HAL库：HAL库不仅提供了基础的外设驱动程序，还支持一些高�
 1. 触发方式：上升沿/下降沿/双边沿/软件触发
 2. 支持所有GPIO口，但相同的Pin不能同时触发中断
 3. 通道数：16个GPIO_Pin，外加PVD输出、RTC闹钟、USB唤醒、以太网唤醒
+
+#### 结构体初始化配置过程
+
+```c
+/*开启时钟*/
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);		//开启GPIOB的时钟
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);		//开启AFIO的时钟，外部中断必须开启AFIO的时钟
+	
+	/*GPIO初始化*/
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOB, &GPIO_InitStructure);						//将PB14引脚初始化为上拉输入
+	
+	/*AFIO选择中断引脚*/
+	GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource14);//将外部中断的14号线映射到GPIOB，即选择PB14为外部中断引脚
+	
+	/*EXTI初始化*/
+	EXTI_InitTypeDef EXTI_InitStructure;						//定义结构体变量
+	EXTI_InitStructure.EXTI_Line = EXTI_Line14;					//选择配置外部中断的14号线
+	EXTI_InitStructure.EXTI_LineCmd = ENABLE;					//指定外部中断线使能
+	EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;			//指定外部中断线为中断模式
+	EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;		//指定外部中断线为下降沿触发
+	EXTI_Init(&EXTI_InitStructure);								//将结构体变量交给EXTI_Init，配置EXTI外设
+	
+	/*NVIC中断分组*/
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);				//配置NVIC为分组2
+																//即抢占优先级范围：0~3，响应优先级范围：0~3
+																//此分组配置在整个工程中仅需调用一次
+																//若有多个中断，可以把此代码放在main函数内，while循环之前
+																//若调用多次配置分组的代码，则后执行的配置会覆盖先执行的配置
+	
+	/*NVIC配置*/
+	NVIC_InitTypeDef NVIC_InitStructure;						//定义结构体变量
+	NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;		//选择配置NVIC的EXTI15_10线
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;				//指定NVIC线路使能
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;	//指定NVIC线路的抢占优先级为1
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;			//指定NVIC线路的响应优先级为1
+```
+
+
 
 
 
